@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,30 +18,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data 
-@Getter 
+@Data
+@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public  class Product {
+public class Product {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@NotNull(message = "Name may not be null")
-	@Column(name="name")
+
+	@NotBlank(message = "Name has at least 1 value")
+	@Column(name = "name")
 	private String name;
-	
-	@NotNull(message = "Price may not be empty")
-	@Column(name="price")
+
+	@NotNull(message = "Price may not be null")
+	@Column(name = "price")
 	private String price;
-	
-	@NotNull(message = "Description may not be empty")
-	@Column(name="description")
+
+	@NotNull(message = "Description may not be null")
+	@Column(name = "description")
 	private String description;
-	
+
 	@CreationTimestamp
-    private Date created_time;
+	private Date created_time;
 
 }

@@ -13,11 +13,11 @@ import com.example.demo.model.Product;
 import com.example.demo.repositories.ProductRepository;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 	ProductRepository productRepository;
-	
+    
 	public ProductServiceImpl(ProductRepository productRepository) {
-	    this.productRepository = productRepository;
+		this.productRepository = productRepository;
 	}
 
 	@Override
@@ -26,20 +26,20 @@ public class ProductServiceImpl implements ProductService{
 		productRepository.findAll().forEach(products::add);
 		return products;
 	}
-	
+
 	@Override
 	public List<Product> getAllProducts(Integer pageNo, Integer pageSize, String sort) {
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sort));
-		 
-        Page<Product> pagedResult = productRepository.findAll(paging);
-         
-        if(pagedResult.hasContent()) {
-            return pagedResult.getContent();
-        } else {
-            return new ArrayList<Product>();
-        }
+
+		Page<Product> pagedResult = productRepository.findAll(paging);
+
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		} else {
+			return new ArrayList<Product>();
+		}
 	}
-	
+
 	@Override
 	public Product getProductById(Long id) {
 		return productRepository.findById(id).get();
@@ -53,17 +53,17 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void updateProduct(Long id, Product updateProduct) {
 		Product productFromDb = productRepository.findById(id).get();
-        System.out.println(productFromDb.toString());
-        productFromDb.setName(updateProduct.getName());
-        productFromDb.setPrice(updateProduct.getPrice());
-        productFromDb.setDescription(updateProduct.getDescription());
-        productRepository.save(productFromDb);
+		System.out.println(productFromDb.toString());
+		productFromDb.setName(updateProduct.getName());
+		productFromDb.setPrice(updateProduct.getPrice());
+		productFromDb.setDescription(updateProduct.getDescription());
+		productRepository.save(productFromDb);
 	}
 
 	@Override
 	public void deleteProduct(Long productId) {
 		productRepository.deleteById(productId);
-		
+
 	}
 
 }

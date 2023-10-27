@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -30,56 +31,54 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
-	//	Get all product
-    @GetMapping("")
-    public ResponseEntity<List<Product>> getProducts() {
-    	LOGGER.info("Getting All Products");
-        List<Product> products = productService.getProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-	
-    //	Get paging product
+
+	// Get all product
+	@GetMapping("")
+	public ResponseEntity<List<Product>> getProducts() {
+		LOGGER.info("Getting All Products");
+		List<Product> products = productService.getProducts();
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	// Get paging product
 	@GetMapping("/page")
-	public ResponseEntity<List<Product>> getPageProducts(
-            @RequestParam(defaultValue = "0") Integer pageNo, 
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy) 
-	{
+	public ResponseEntity<List<Product>> getPageProducts(@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy) {
 		LOGGER.info("Getting Page Products");
 		List<Product> list = productService.getAllProducts(pageNo, pageSize, sortBy);
-		return new ResponseEntity<List<Product>>(list, HttpStatus.OK); 
+		return new ResponseEntity<List<Product>>(list, HttpStatus.OK);
 	}
-    
-    //	Get product by id
-    @GetMapping({"/{productId}"})
-    public ResponseEntity<Product> getProduct(@PathVariable("productId") Long productId) {
-    	LOGGER.info("Getting the Product, Id:" + productId);
-        return new ResponseEntity<>(productService.getProductById(productId), HttpStatus.OK);
-    }
-    
-    //	Create product
-    @PostMapping
-    public ResponseEntity<Product> insertProduct(@Valid @RequestBody Product product) {
-    	LOGGER.info("Creating a Product");
-    	Product product1 = productService.insert(product);
-        return new ResponseEntity<>(product1, HttpStatus.CREATED);
-    }
-    
-    //	Update product by id
-    @PutMapping({"/{productId}"})
-    public ResponseEntity<Product> updateProduct(@Valid @PathVariable("productId") Long productId, @RequestBody Product product) {
-    	LOGGER.info("Updating the Product, Id:" + productId);
-    	productService.updateProduct(productId, product);
-        return new ResponseEntity<>(productService.getProductById(productId), HttpStatus.OK);
-    }
-    
-    //	Delete product by id
-    @DeleteMapping({"/{productId}"})
-    public ResponseEntity<Product> deleteProduct(@PathVariable("productId") Long productId) {
-    	LOGGER.info("Deleting the Product, Id:" + productId);
-    	productService.deleteProduct(productId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-	
+
+	// Get product by id
+	@GetMapping({ "/{productId}" })
+	public ResponseEntity<Product> getProduct(@PathVariable("productId") Long productId) {
+		LOGGER.info("Getting the Product, Id:" + productId);
+		return new ResponseEntity<>(productService.getProductById(productId), HttpStatus.OK);
+	}
+
+	// Create product
+	@PostMapping
+	public ResponseEntity<Product> insertProduct(@Valid @RequestBody Product product) {
+		LOGGER.info("Creating a Product");
+		Product product1 = productService.insert(product);
+		return new ResponseEntity<>(product1, HttpStatus.CREATED);
+	}
+
+	// Update product by id
+	@PutMapping({ "/{productId}" })
+	public ResponseEntity<Product> updateProduct(@Valid @PathVariable("productId") Long productId,
+			@RequestBody Product product) {
+		productService.updateProduct(productId, product);
+		LOGGER.info("Updated the Product, Id:" + productId);
+		return new ResponseEntity<>(productService.getProductById(productId), HttpStatus.OK);
+	}
+
+	// Delete product by id
+	@DeleteMapping({ "/{productId}" })
+	public ResponseEntity<Product> deleteProduct(@PathVariable("productId") Long productId) {
+		LOGGER.info("Deleting the Product, Id:" + productId);
+		productService.deleteProduct(productId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }
