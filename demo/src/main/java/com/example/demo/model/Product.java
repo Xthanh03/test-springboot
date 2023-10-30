@@ -43,5 +43,8 @@ public class Product {
 
 	@CreationTimestamp
 	private Date created_time;
+	
+	@CreationTimestamp
+	private Date updated_time;
 
 }
